@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Bids</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <div>
+          <h1>All Bids</h1>
+          <p>Read-only list of all bid entries.</p>
+        </div>
+
+        <div class="actions">
+          <button id="backButton" type="button" class="secondary">Back To Main Page</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-title">
+          <h2>Bid Data</h2>
+          <div class="actions">
+            <label class="filter-picker">
+              Filter by user
+              <select id="filterUser"></select>
+            </label>
+            <button id="refreshButton" type="button">Refresh</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Plot ID</th>
+                <th>Details</th>
+                <th>Bid Amount</th>
+              </tr>
+            </thead>
+            <tbody id="allBidTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p id="message" class="message" role="status"></p>
+    </main>
+
+    <script src="/all-bids.js"></script>
+  </body>
+</html>
