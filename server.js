@@ -11,10 +11,38 @@ const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/plot_bid_logger";
 
 const USERS = [
-  { userId: "USR001", name: "Amit" },
-  { userId: "USR002", name: "Priya" },
-  { userId: "USR003", name: "Rahul" },
-  { userId: "USR004", name: "Neha" }
+  {
+    userId: "USR001",
+    name: "EQOVA INFRASTRUCTURES PRIVATE LIMITED / Sujit Singh"
+  },
+  {
+    userId: "USR002",
+    name: "EQOVA HOSPITALITY PRIVATE LIMITED / Rajendra Singh"
+  },
+  {
+    userId: "USR003",
+    name: "CYNO LIFESCIENCES PRIVATE LIMITED / Abhishek Jain"
+  },
+  {
+    userId: "USR004",
+    name: "Sky Rath / CK"
+  },
+  {
+    userId: "USR005",
+    name: "Eqova Medicare / KJ"
+  },
+  {
+    userId: "USR006",
+    name: "MMSF / SJ"
+  },
+  {
+    userId: "USR007",
+    name: "MMSF / MJ"
+  },
+  {
+    userId: "USR008",
+    name: "NBF"
+  }
 ];
 
 const plotBidSchema = new mongoose.Schema(
