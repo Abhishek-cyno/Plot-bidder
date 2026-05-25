@@ -43,7 +43,14 @@ async function loadUsers() {
 }
 
 async function loadBids() {
-  const bids = await requestJson("/api/plot-bids");
+  const params = new URLSearchParams();
+
+  if (activeUser.value) {
+    params.set("userId", activeUser.value);
+  }
+
+  const url = params.toString() ? `/api/plot-bids?${params.toString()}` : "/api/plot-bids";
+  const bids = await requestJson(url);
 
   if (bids.length === 0) {
     bidTableBody.innerHTML = `
@@ -189,6 +196,16 @@ refreshButton.addEventListener("click", async () => {
   try {
     await refreshAll();
     setMessage("Data refreshed.");
+  } catch (error) {
+    setMessage(error.message, "error");
+  }
+});
+
+activeUser.addEventListener("change", async () => {
+  try {
+    await refreshAll();
+    const selectedUser = activeUser.options[activeUser.selectedIndex]?.textContent || "selected user";
+    setMessage(`Showing data for ${selectedUser}.`);
   } catch (error) {
     setMessage(error.message, "error");
   }

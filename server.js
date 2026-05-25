@@ -9,6 +9,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/plot_bid_logger";
+const USING_RENDER = Boolean(process.env.RENDER);
+const USING_DEFAULT_MONGODB_URI = !process.env.MONGODB_URI;
+
+function describeMongoUri(uri) {
+  try {
+    const parsed = new URL(uri);
+    const databaseName = parsed.pathname.replace("/", "") || "(no database name)";
+    return `${parsed.protocol}//${parsed.hostname}/${databaseName}`;
+  } catch (error) {
+    return "Invalid MongoDB URI format";
+  }
+}
 
 const USERS = [
   {
@@ -115,6 +127,13 @@ function normalizeAmount(value) {
 app.get("/api/users", (req, res) => {
   // Keep frontend API stable (`id`) while server stores canonical `userId`.
   res.json(USERS.map((user) => ({ id: user.userId, name: user.name })));
+});
+
+app.get("/health", (req, res) => {
+  res.json({
+    ok: true,
+    databaseState: mongoose.connection.readyState
+  });
 });
 
 app.get("/api/plot-bids", async (req, res, next) => {
@@ -274,5 +293,16 @@ mongoose
   })
   .catch((error) => {
     console.error("MongoDB connection failed:", error.message);
+
+    if (USING_RENDER && USING_DEFAULT_MONGODB_URI) {
+      console.error(
+        "Render is using the local fallback MongoDB URI. Add MONGODB_URI in Render Environment Variables."
+      );
+    }
+
+    console.error(`MongoDB target: ${describeMongoUri(MONGODB_URI)}`);
+    console.error(
+      "Check that the Atlas URI includes a database name, password special characters are URL-encoded, and Atlas Network Access allows Render."
+    );
     process.exit(1);
   });
